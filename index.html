@@ -591,14 +591,25 @@ addMarkerBtn.addEventListener("click", () => {
   alert("Toca el mapa para ubicar el reporte");
 });
 
-map.on("click", function(e) {
+  map.on("click", function(e) {
 
   if (!selectingLocation) return;
 
-  selectedLat = e.latlng.lat;
-  selectedLng = e.latlng.lng;
+  // Si ya existe un marcador temporal lo eliminamos
+  if (marcadorTemporal) {
+    map.removeLayer(marcadorTemporal);
+  }
 
-  formPopup.style.display = "block";
+  const categoriaSeleccionada = document.getElementById("categoria").value;
+
+  marcadorTemporal = L.circleMarker(e.latlng, {
+    radius: 10,
+    color: obtenerColor(categoriaSeleccionada),
+    fillColor: obtenerColor(categoriaSeleccionada),
+    fillOpacity: 0.9
+  }).addTo(map);
+
+  document.getElementById("formPopup").style.display = "block";
 
   selectingLocation = false;
   addMarkerBtn.style.background = "#ffb300";
