@@ -60,8 +60,32 @@
 style="position:fixed;top:20px;left:20px;z-index:1000;">
 📍 Usar mi ubicación
 </button>
+  
+<!-- 👇 PANEL DE FILTROS AQUÍ -->
 
-  <script>
+<div id="filtros" style="
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  font-size: 14px;
+">
+  <strong>Filtrar por categoría</strong><br>
+
+  <label><input type="checkbox" value="Cuadrillas de limpieza" checked> Cuadrillas</label><br>
+  <label><input type="checkbox" value="Baches profundos" checked> Baches</label><br>
+  <label><input type="checkbox" value="Donación de agua y víveres" checked> Agua</label><br>
+  <label><input type="checkbox" value="Maquinaria para escombros" checked> Maquinaria</label><br>
+  <label><input type="checkbox" value="Otros daños" checked> Otros</label>
+</div>
+
+<script>
+
+
   const supabaseUrl = "https://esgprjbtkykdkzhpkjie.supabase.co";
   const supabaseKey = "sb_publishable_Pjl5CaB7eqtkAaBIaVVdXg_qAIXMB4S";
   const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
