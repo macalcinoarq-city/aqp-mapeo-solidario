@@ -11,6 +11,7 @@
   <style>
     body { margin: 0; font-family: Arial, sans-serif; }
     #map { height: 100vh; }
+
     .form-popup {
       position: fixed;
       bottom: 20px;
@@ -21,7 +22,9 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       width: 300px;
       display: none;
+      z-index: 1000;
     }
+
     button { margin-top: 5px; }
   </style>
 </head>
@@ -45,12 +48,14 @@
   <label>Descripción:</label><br>
   <textarea id="descripcion" rows="3"></textarea><br><br>
 
-  <label>Imagen:</label><br>
-  <input type="file" id="imagen"><br><br>
-
   <button onclick="guardarReporte()">Guardar</button>
   <button onclick="cerrarFormulario()">Cancelar</button>
 </div>
+
+<button onclick="usarUbicacion()" 
+style="position:fixed;top:20px;left:20px;z-index:1000;">
+📍 Usar mi ubicación
+</button>
 
 <script>
   var map = L.map('map').setView([-16.4090, -71.5375], 13);
@@ -59,7 +64,7 @@
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
 
-  var marcadorTemporal;
+  var marcadorTemporal = null;
 
   map.on('click', function(e) {
     marcadorTemporal = e.latlng;
@@ -71,6 +76,8 @@
   }
 
   function guardarReporte() {
+    if (!marcadorTemporal) return;
+
     var categoria = document.getElementById('categoria').value;
     var descripcion = document.getElementById('descripcion').value;
 
@@ -85,10 +92,6 @@
     map.locate({setView: true, maxZoom: 16});
   }
 </script>
-
-<button onclick="usarUbicacion()" style="position:fixed;top:20px;left:20px;z-index:1000;">
-📍 Usar mi ubicación
-</button>
 
 </body>
 </html>
