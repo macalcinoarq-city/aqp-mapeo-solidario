@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const SUPABASE_URL = "https://esgprjbtkydkzhpkjie.supabase.co/rest/v1/rpc/reportes_geojson_fc";
+  const SUPABASE_URL = "https://esgprjbtkykdkzhpkjie.supabase.co/rest/v1/rpc/reportes_geojson_fc";
   const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
 
   const response = await fetch(SUPABASE_URL, {
