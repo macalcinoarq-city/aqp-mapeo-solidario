@@ -552,6 +552,35 @@ toggleBtn.addEventListener("click", () => {
   }
 });
 
+  // ===== BOTÓN AGREGAR MARCADOR =====
+
+const addMarkerBtn = document.getElementById("addMarkerBtn");
+const formPopup = document.getElementById("formPopup");
+
+let selectingLocation = false;
+let selectedLat = null;
+let selectedLng = null;
+
+addMarkerBtn.addEventListener("click", () => {
+  selectingLocation = true;
+  addMarkerBtn.style.background = "#e65100";
+  alert("Toca el mapa para ubicar el reporte");
+});
+
+map.on("click", function(e) {
+
+  if (!selectingLocation) return;
+
+  selectedLat = e.latlng.lat;
+  selectedLng = e.latlng.lng;
+
+  formPopup.style.display = "block";
+
+  selectingLocation = false;
+  addMarkerBtn.style.background = "#ffb300";
+
+});
+  
 </script>
 
 
