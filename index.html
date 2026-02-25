@@ -233,7 +233,28 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
       .select('*');
 
     if (data) {
-      data.forEach(r => {
+      // 🔢 Actualizar total
+        document.getElementById("totalReportes").innerText = data.length;
+
+      // 📊 Contar por categoría
+        const conteo = {};
+
+        data.forEach(r => {
+            if (!conteo[r.categoria]) {
+                conteo[r.categoria] = 0;
+            }
+           conteo[r.categoria]++;
+        });
+
+      // Mostrar conteo en el panel
+        let htmlConteo = "";
+        for (let categoria in conteo) {
+            htmlConteo += categoria + ": " + conteo[categoria] + "<br>";
+        }
+
+        document.getElementById("conteoCategorias").innerHTML = htmlConteo;
+
+        data.forEach(r => {
 
         let popupContenido = `<b>${r.categoria}</b><br>${r.descripcion}`;
 
