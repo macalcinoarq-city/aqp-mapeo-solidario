@@ -63,61 +63,57 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   
 <!-- 👇 PANEL DE FILTROS AQUÍ -->
 
-<div id="filtros" style="
-  position: fixed;
-  top: 80px;
-  left: 20px;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  font-size: 14px;
+<div id="panel" style="
+    position: fixed;
+    top: 80px;
+    left: 20px;
+    width: 260px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    z-index: 1000;
+    font-size: 14px;
 ">
-  <strong>Filtrar por categoría</strong><br>
 
-  <label><input type="checkbox" value="Cuadrillas de limpieza" checked> Cuadrillas</label><br>
-  <label><input type="checkbox" value="Baches profundos" checked> Baches</label><br>
-  <label><input type="checkbox" value="Donación de agua y víveres" checked> Agua</label><br>
-  <label><input type="checkbox" value="Maquinaria para escombros" checked> Maquinaria</label><br>
-  <label><input type="checkbox" value="Otros daños" checked> Otros</label>
+    <h3 style="margin-top:0;">Filtros</h3>
 
-  <label>
-    <input type="checkbox" id="filtro24h">
-    Solo últimas 24h
-  </label>
-  
-  <hr>
-  
-  <strong>Filtrar por fecha</strong><br>
+    <hr>
 
-  <label>Desde:<br>
-    <input type="date" id="fechaDesde">
-  </label><br>
+    <strong>Categorías</strong><br>
 
-  <label>Hasta:<br>
-    <input type="date" id="fechaHasta">
-  </label>
+    <label><input type="checkbox" value="Cuadrillas de limpieza" checked> Cuadrillas</label><br>
+    <label><input type="checkbox" value="Baches profundos" checked> Baches</label><br>
+    <label><input type="checkbox" value="Donación de agua y víveres" checked> Agua</label><br>
+    <label><input type="checkbox" value="Maquinaria para escombros" checked> Maquinaria</label><br>
+    <label><input type="checkbox" value="Otros daños" checked> Otros</label><br>
+
+    <hr>
+
+    <strong>Fecha</strong><br>
+
+    <label>
+        <input type="checkbox" id="filtro24h">
+        Solo últimas 24h
+    </label><br><br>
+
+    <label>Desde:<br>
+        <input type="date" id="fechaDesde" style="width:100%;">
+    </label><br><br>
+
+    <label>Hasta:<br>
+        <input type="date" id="fechaHasta" style="width:100%;">
+    </label>
+
+    <hr>
+
+    <strong>Estadísticas</strong><br>
+    Total: <span id="totalReportes">0</span><br><br>
+
+    <div id="conteoCategorias"></div>
 
 </div>
  
-<div id="estadisticas" style="
-  position: fixed;
-  top: 360px;
-  left: 20px;
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  font-size: 14px;
-  width: 200px;
-">
-  <strong>Estadísticas</strong><br>
-  Total: <span id="totalReportes">0</span><br><br>
-  <div id="conteoCategorias"></div>
-</div>
-
 
 <script>
 
@@ -389,7 +385,7 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
 
 // Escuchar cambios en los checkboxes
-document.querySelectorAll('#filtros input[type="checkbox"]').forEach(cb => {
+document.querySelectorAll('#panel input[type="checkbox"]').forEach(cb => {
   cb.addEventListener('change', aplicarFiltros);
 });
 document.getElementById("fechaDesde").addEventListener("change", aplicarFiltros);
