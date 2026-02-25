@@ -81,30 +81,61 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   });
 
   async function guardarReporte() {
-    if (!marcadorTemporal) return;
+  if (!marcadorTemporal) return;
 
-    var categoria = document.getElementById('categoria').value;
-    var descripcion = document.getElementById('descripcion').value;
+  const categoria = document.getElementById('categoria').value;
+  const descripcion = document.getElementById('descripcion').value;
+  const archivo = document.getElementById('imagen').files[0];
 
-    const { data, error } = await supabaseClient
-      .from('reportes')
-      .insert([{
-        categoria: categoria,
-        descripcion: descripcion,
-        lat: marcadorTemporal.lat,
-        lng: marcadorTemporal.lng
-      }]);
+  let imagenUrl = null;
 
-    if (error) {
-      alert("Error al guardar: " + error.message);
-    } else {
-      L.marker(marcadorTemporal)
-        .addTo(map)
-        .bindPopup("<b>" + categoria + "</b><br>" + descripcion);
+  // Si hay imagen, subirla
+  if (archivo) {
+    const nombreArchivo = `${Date.now()}_${archivo.name}`;
 
-      cerrarFormulario();
+    const { error: uploadError } = await supabaseClient.storage
+      .from('imagenes-reportes')
+      .upload(nombreArchivo, archivo);
+
+    if (uploadError) {
+      alert("Error al subir imagen: " + uploadError.message);
+      return;
     }
+
+    const { data: publicUrlData } = supabaseClient.storage
+      .from('imagenes-reportes')
+      .getPublicUrl(nombreArchivo);
+
+    imagenUrl = publicUrlData.publicUrl;
   }
+
+  const { error } = await supabaseClient
+    .from('reportes')
+    .insert([{
+      categoria: categoria,
+      descripcion: descripcion,
+      lat: marcadorTemporal.lat,
+      lng: marcadorTemporal.lng,
+      imagen_url: imagenUrl
+    }]);
+
+  if (error) {
+    alert("Error al guardar: " + error.message);
+  } else {
+
+    let popupContenido = `<b>${categoria}</b><br>${descripcion}`;
+
+    if (imagenUrl) {
+      popupContenido += `<br><img src="${imagenUrl}" width="200">`;
+    }
+
+    L.marker(marcadorTemporal)
+      .addTo(map)
+      .bindPopup(popupContenido);
+
+    cerrarFormulario();
+  }
+}
 
   function cerrarFormulario() {
     document.getElementById('formPopup').style.display = 'none';
