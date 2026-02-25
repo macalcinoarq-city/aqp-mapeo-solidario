@@ -76,9 +76,19 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   var marcadorTemporal = null;
 
   map.on('click', function(e) {
-    marcadorTemporal = e.latlng;
-    document.getElementById('formPopup').style.display = 'block';
-  });
+
+  // Si ya existe un marcador temporal lo eliminamos
+  if (marcadorTemporal) {
+    map.removeLayer(marcadorTemporal);
+  }
+
+  // Creamos marcador draggable
+  marcadorTemporal = L.marker(e.latlng, {
+    draggable: true
+  }).addTo(map);
+
+  document.getElementById('formPopup').style.display = 'block';
+});
 
   async function guardarReporte() {
   if (!marcadorTemporal) return;
@@ -109,15 +119,18 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
     imagenUrl = publicUrlData.publicUrl;
   }
 
-  const { error } = await supabaseClient
-    .from('reportes')
-    .insert([{
-      categoria: categoria,
-      descripcion: descripcion,
-      lat: marcadorTemporal.lat,
-      lng: marcadorTemporal.lng,
-      imagen_url: imagenUrl
-    }]);
+    const posicionFinal = marcadorTemporal.getLatLng();
+
+    const { error } = await supabaseClient
+      .from('reportes')
+      .insert([{
+        categoria: categoria,
+        descripcion: descripcion,
+        lat: posicionFinal.lat,
+        lng: posicionFinal.lng,
+        imagen_url: imagenUrl
+      }]);
+
 
   if (error) {
     alert("Error al guardar: " + error.message);
