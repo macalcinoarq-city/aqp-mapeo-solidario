@@ -81,6 +81,12 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   <label><input type="checkbox" value="Donación de agua y víveres" checked> Agua</label><br>
   <label><input type="checkbox" value="Maquinaria para escombros" checked> Maquinaria</label><br>
   <label><input type="checkbox" value="Otros daños" checked> Otros</label>
+
+  <label>
+  <input type="checkbox" id="filtro24h">
+  Solo últimas 24h
+</label>
+
 </div>
  
 <div id="estadisticas" style="
@@ -272,10 +278,10 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
         .bindPopup(popupContenido);
 
         marcadores.push({
-          categoria: r.categoria,
-          marker: marcador
+            categoria: r.categoria,
+            marker: marcador,
+            fecha: r.created_at
         });
-
         
        
       });
@@ -288,6 +294,9 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
     const checkboxes = document.querySelectorAll('#filtros input[type="checkbox"]');
     const categoriasActivas = [];
+   
+    const solo24h = document.getElementById("filtro24h").checked;
+    const ahora = new Date();
 
     checkboxes.forEach(cb => {
         if (cb.checked) {
@@ -300,7 +309,17 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
     marcadores.forEach(obj => {
 
-        if (categoriasActivas.includes(obj.categoria)) {
+        let mostrar = categoriasActivas.includes(obj.categoria);
+
+        if (solo24h && obj.fecha) {
+            const fechaReporte = new Date(obj.fecha);
+            const diferenciaHoras = (ahora - fechaReporte) / (1000 * 60 * 60);
+            if (diferenciaHoras > 24) {
+                mostrar = false;
+            }
+        }
+
+        if (mostrar) {
 
             map.addLayer(obj.marker);
 
