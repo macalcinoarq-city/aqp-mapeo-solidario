@@ -165,10 +165,19 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
     if (data) {
       data.forEach(r => {
+
+        let popupContenido = `<b>${r.categoria}</b><br>${r.descripcion}`;
+
+        if (r.imagen_url) {
+          popupContenido += `<br><img src="${r.imagen_url}" width="200">`;
+        }
+
         L.marker([r.lat, r.lng])
           .addTo(map)
-          .bindPopup("<b>" + r.categoria + "</b><br>" + r.descripcion);
-      });
+          .bindPopup(popupContenido);
+
+    });
+
     }
   }
 
