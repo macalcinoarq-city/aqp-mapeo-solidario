@@ -83,9 +83,21 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   <label><input type="checkbox" value="Otros daños" checked> Otros</label>
 
   <label>
-  <input type="checkbox" id="filtro24h">
-  Solo últimas 24h
-</label>
+    <input type="checkbox" id="filtro24h">
+    Solo últimas 24h
+  </label>
+  
+  <hr>
+  
+  <strong>Filtrar por fecha</strong><br>
+
+  <label>Desde:<br>
+    <input type="date" id="fechaDesde">
+  </label><br>
+
+  <label>Hasta:<br>
+    <input type="date" id="fechaHasta">
+  </label>
 
 </div>
  
@@ -298,6 +310,13 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
     const solo24h = document.getElementById("filtro24h").checked;
     const ahora = new Date();
 
+    const fechaDesdeInput = document.getElementById("fechaDesde").value;
+    const fechaHastaInput = document.getElementById("fechaHasta").value;
+
+    const fechaDesde = fechaDesdeInput ? new Date(fechaDesdeInput) : null;
+    const fechaHasta = fechaHastaInput ? new Date(fechaHastaInput) : null;
+
+
     checkboxes.forEach(cb => {
         if (cb.checked) {
             categoriasActivas.push(cb.value);
@@ -318,6 +337,24 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
                 mostrar = false;
             }
         }
+        // 🔎 Filtro por rango de fechas
+        if (obj.fecha) {
+            const fechaReporte = new Date(obj.fecha);
+
+            if (fechaDesde && fechaReporte < fechaDesde) {
+                mostrar = false;
+            }
+
+            if (fechaHasta) {
+                const finDelDia = new Date(fechaHasta);
+                finDelDia.setHours(23, 59, 59, 999);
+
+                if (fechaReporte > finDelDia) {
+                    mostrar = false;
+                }
+            }
+        }
+
 
         if (mostrar) {
 
@@ -355,6 +392,9 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 document.querySelectorAll('#filtros input[type="checkbox"]').forEach(cb => {
   cb.addEventListener('change', aplicarFiltros);
 });
+document.getElementById("fechaDesde").addEventListener("change", aplicarFiltros);
+document.getElementById("fechaHasta").addEventListener("change", aplicarFiltros);
+document.getElementById("filtro24h").addEventListener("change", aplicarFiltros);
 
 </script>
 
