@@ -73,6 +73,26 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
 
+
+  // 👇 AQUÍ VA LA FUNCIÓN
+
+  function obtenerColor(categoria) {
+    switch (categoria) {
+      case "Cuadrillas de limpieza":
+        return "#2ECC71";
+      case "Baches profundos":
+        return "#F1C40F";
+      case "Donación de agua y víveres":
+        return "#3498DB";
+      case "Maquinaria para escombros":
+        return "#8E44AD";
+      case "Otros daños":
+        return "#E74C3C";
+      default:
+        return "#7F8C8D";
+    }
+  }
+
   var marcadorTemporal = null;
 
   map.on('click', function(e) {
@@ -83,8 +103,13 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   }
 
   // Creamos marcador draggable
-  marcadorTemporal = L.marker(e.latlng, {
-    draggable: true
+  const categoriaSeleccionada = document.getElementById('categoria').value;
+
+  marcadorTemporal = L.circleMarker(e.latlng, {
+    radius: 10,
+    color: obtenerColor(categoriaSeleccionada),
+    fillColor: obtenerColor(categoriaSeleccionada),
+    fillOpacity: 0.9
   }).addTo(map);
 
   document.getElementById('formPopup').style.display = 'block';
