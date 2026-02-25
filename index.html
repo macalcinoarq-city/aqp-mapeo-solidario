@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Aqp Mapeo Solidario</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    #map { height: 100vh; }
+    .form-popup {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      width: 300px;
+      display: none;
+    }
+    button { margin-top: 5px; }
+  </style>
+</head>
+
+<body>
+
+<div id="map"></div>
+
+<div class="form-popup" id="formPopup">
+  <h3>Reportar afectación</h3>
+  
+  <label>Categoría:</label><br>
+  <select id="categoria">
+    <option>Cuadrillas de limpieza</option>
+    <option>Baches profundos</option>
+    <option>Donación de agua y víveres</option>
+    <option>Maquinaria para escombros</option>
+    <option>Otros daños</option>
+  </select><br><br>
+
+  <label>Descripción:</label><br>
+  <textarea id="descripcion" rows="3"></textarea><br><br>
+
+  <label>Imagen:</label><br>
+  <input type="file" id="imagen"><br><br>
+
+  <button onclick="guardarReporte()">Guardar</button>
+  <button onclick="cerrarFormulario()">Cancelar</button>
+</div>
+
+<script>
+  var map = L.map('map').setView([-16.4090, -71.5375], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  var marcadorTemporal;
+
+  map.on('click', function(e) {
+    marcadorTemporal = e.latlng;
+    document.getElementById('formPopup').style.display = 'block';
+  });
+
+  function cerrarFormulario() {
+    document.getElementById('formPopup').style.display = 'none';
+  }
+
+  function guardarReporte() {
+    var categoria = document.getElementById('categoria').value;
+    var descripcion = document.getElementById('descripcion').value;
+
+    L.marker(marcadorTemporal)
+      .addTo(map)
+      .bindPopup("<b>" + categoria + "</b><br>" + descripcion);
+
+    cerrarFormulario();
+  }
+
+  function usarUbicacion() {
+    map.locate({setView: true, maxZoom: 16});
+  }
+</script>
+
+<button onclick="usarUbicacion()" style="position:fixed;top:20px;left:20px;z-index:1000;">
+📍 Usar mi ubicación
+</button>
+
+</body>
+</html>
