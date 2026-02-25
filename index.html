@@ -285,24 +285,52 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
   cargarReportes();
   function aplicarFiltros() {
-  const checkboxes = document.querySelectorAll('#filtros input[type="checkbox"]');
 
-  const categoriasActivas = [];
+    const checkboxes = document.querySelectorAll('#filtros input[type="checkbox"]');
+    const categoriasActivas = [];
 
-  checkboxes.forEach(cb => {
-    if (cb.checked) {
-      categoriasActivas.push(cb.value);
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            categoriasActivas.push(cb.value);
+        }
+    });
+
+    let totalVisible = 0;
+    const conteoVisible = {};
+
+    marcadores.forEach(obj => {
+
+        if (categoriasActivas.includes(obj.categoria)) {
+
+            map.addLayer(obj.marker);
+
+            totalVisible++;
+
+            if (!conteoVisible[obj.categoria]) {
+                conteoVisible[obj.categoria] = 0;
+            }
+
+            conteoVisible[obj.categoria]++;
+
+        } else {
+
+            map.removeLayer(obj.marker);
+
+        }
+    });
+
+    // 🔢 Actualizar total visible
+    document.getElementById("totalReportes").innerText = totalVisible;
+
+    // 📊 Actualizar conteo visible
+    let htmlConteo = "";
+    for (let categoria in conteoVisible) {
+        htmlConteo += categoria + ": " + conteoVisible[categoria] + "<br>";
     }
-  });
 
-  marcadores.forEach(obj => {
-    if (categoriasActivas.includes(obj.categoria)) {
-      map.addLayer(obj.marker);
-    } else {
-      map.removeLayer(obj.marker);
-    }
-  });
+    document.getElementById("conteoCategorias").innerHTML = htmlConteo;
 }
+
 
 // Escuchar cambios en los checkboxes
 document.querySelectorAll('#filtros input[type="checkbox"]').forEach(cb => {
