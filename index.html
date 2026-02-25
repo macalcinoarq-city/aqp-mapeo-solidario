@@ -298,7 +298,29 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   var marcadores = [];
 
 
-  map.on('click', function(e) {
+  map.on("click", function(e) {
+
+  if (!selectingLocation) return;
+
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+
+  // Si ya había uno, eliminarlo
+  if (marcadorTemporal) {
+    map.removeLayer(marcadorTemporal);
+  }
+
+  // Crear nuevo marcador temporal
+  marcadorTemporal = L.marker([lat, lng], {
+    draggable: true
+  }).addTo(map);
+
+  formPopup.style.display = "block";
+
+  selectingLocation = false;
+  addMarkerBtn.style.background = "#ffb300";
+
+});
 
   // Si ya existe un marcador temporal lo eliminamos
   if (marcadorTemporal) {
