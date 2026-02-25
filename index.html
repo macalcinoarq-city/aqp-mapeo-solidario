@@ -158,10 +158,6 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   display: none;
 ">
   
-  
-<div id="panelContent">
-
-
     <h3 style="margin-top:0;">Filtros</h3>
 
     <hr>
@@ -198,7 +194,6 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 
     <div id="conteoCategorias"></div>
 
-</div> <!-- cierre panelContent -->
 </div> <!-- cierre panel -->
 
 <script>
@@ -483,33 +478,14 @@ document.getElementById("filtro24h").addEventListener("change", aplicarFiltros);
 // ===== Panel colapsable =====
 
 const panel = document.getElementById("panel");
-const panelContent = document.getElementById("panelContent");
 const toggleBtn = document.getElementById("togglePanel");
 
-const openBtn = document.createElement("button");
-openBtn.innerText = "☰ Filtros";
-openBtn.style.position = "fixed";
-openBtn.style.top = "80px";
-openBtn.style.left = "20px";
-openBtn.style.background = "white";
-openBtn.style.border = "none";
-openBtn.style.borderRadius = "12px";
-openBtn.style.boxShadow = "0 6px 18px rgba(0,0,0,0.15)";
-openBtn.style.padding = "8px 12px";
-openBtn.style.cursor = "pointer";
-openBtn.style.zIndex = "999";
-openBtn.style.display = "none";
-
-document.body.appendChild(openBtn);
-
 toggleBtn.addEventListener("click", () => {
-    panel.style.display = "none";
-    openBtn.style.display = "block";
-});
-
-openBtn.addEventListener("click", () => {
+  if (panel.style.display === "none" || panel.style.display === "") {
     panel.style.display = "block";
-    openBtn.style.display = "none";
+  } else {
+    panel.style.display = "none";
+  }
 });
 
 </script>
