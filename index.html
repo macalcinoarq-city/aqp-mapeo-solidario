@@ -58,8 +58,8 @@
 
     .app-header {
   position: absolute;
-  bottom: 20px;
   left: 16px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
   display: flex;
   align-items: center;
   padding: 10px 14px;
@@ -76,13 +76,15 @@
 
 .app-title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 500;
   margin: 0;
-  color: #FFB300;
-  letter-spacing: 0.4px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
   text-shadow: 
-    0 1px 0 rgba(200,200,200,0.9),
-    0 2px 4px rgba(180,180,180,0.6);
+    0 0 6px #FFB300,
+    0 0 12px #FFB300;
+  
 }
 
   </style>
