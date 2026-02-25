@@ -197,11 +197,17 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
           popupContenido += `<br><img src="${r.imagen_url}" width="200">`;
         }
 
-        L.marker([r.lat, r.lng])
-          .addTo(map)
-          .bindPopup(popupContenido);
+        L.circleMarker([r.lat, r.lng], {
+         radius: 8,
+         color: obtenerColor(r.categoria),
+         fillColor: obtenerColor(r.categoria),
+         fillOpacity: 0.9
+        })
+        .addTo(map)
+        .bindPopup(popupContenido);
 
-    });
+       
+      });
 
     }
   }
