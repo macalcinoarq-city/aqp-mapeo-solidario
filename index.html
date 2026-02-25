@@ -7,6 +7,7 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body { margin: 0; font-family: Arial, sans-serif; }
@@ -57,7 +58,11 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
 📍 Usar mi ubicación
 </button>
 
-<script>
+  <script>
+  const supabaseUrl = "https://esgprjbtkykdkzhpkjie.supabase.co";
+  const supabaseKey = "sb_publishable_Pjl5CaB7eqtkAaBIaVVdXg_qAIXMB4S";
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
   var map = L.map('map').setView([-16.4090, -71.5375], 13);
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -71,27 +76,57 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
     document.getElementById('formPopup').style.display = 'block';
   });
 
-  function cerrarFormulario() {
-    document.getElementById('formPopup').style.display = 'none';
-  }
-
-  function guardarReporte() {
+  async function guardarReporte() {
     if (!marcadorTemporal) return;
 
     var categoria = document.getElementById('categoria').value;
     var descripcion = document.getElementById('descripcion').value;
 
-    L.marker(marcadorTemporal)
-      .addTo(map)
-      .bindPopup("<b>" + categoria + "</b><br>" + descripcion);
+    const { data, error } = await supabase
+      .from('reportes')
+      .insert([{
+        categoria: categoria,
+        descripcion: descripcion,
+        lat: marcadorTemporal.lat,
+        lng: marcadorTemporal.lng
+      }]);
 
-    cerrarFormulario();
+    if (error) {
+      alert("Error al guardar: " + error.message);
+    } else {
+      L.marker(marcadorTemporal)
+        .addTo(map)
+        .bindPopup("<b>" + categoria + "</b><br>" + descripcion);
+
+      cerrarFormulario();
+    }
+  }
+
+  function cerrarFormulario() {
+    document.getElementById('formPopup').style.display = 'none';
   }
 
   function usarUbicacion() {
     map.locate({setView: true, maxZoom: 16});
   }
+
+  async function cargarReportes() {
+    const { data, error } = await supabase
+      .from('reportes')
+      .select('*');
+
+    if (data) {
+      data.forEach(r => {
+        L.marker([r.lat, r.lng])
+          .addTo(map)
+          .bindPopup("<b>" + r.categoria + "</b><br>" + r.descripcion);
+      });
+    }
+  }
+
+  cargarReportes();
 </script>
+
 
 </body>
 </html>
