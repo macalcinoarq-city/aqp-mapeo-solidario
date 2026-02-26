@@ -467,9 +467,9 @@ marcadores.push({
         .bindPopup(popupContenido);
 
         marcadores.push({
-            categoria: r.categoria,
-            marker: marcador,
-            fecha: r.created_at
+          categoria: r.categoria,
+          marker: marcador,
+          fecha: r.created_at ? new Date(r.created_at) : null
         });
         
        
@@ -507,8 +507,8 @@ marcadores.push({
 
         let mostrar = categoriasActivas.includes(obj.categoria);
 
-        if (solo24h && obj.fecha) {
-            const fechaReporte = new Date(obj.fecha);
+        if (solo24h && obj.fecha instanceof Date) {
+          const fechaReporte = obj.fecha;
             const diferenciaHoras = (ahora - fechaReporte) / (1000 * 60 * 60);
             if (diferenciaHoras > 24) {
                 mostrar = false;
@@ -518,18 +518,19 @@ marcadores.push({
         if (obj.fecha) {
             const fechaReporte = new Date(obj.fecha);
 
-            if (fechaDesde && fechaReporte < fechaDesde) {
+            if (fechaDesde && fechaReporte.getTime() < fechaDesde.getTime()) {
                 mostrar = false;
             }
 
             if (fechaHasta) {
-                const finDelDia = new Date(fechaHasta);
-                finDelDia.setHours(23, 59, 59, 999);
+              const finDelDia = new Date(fechaHasta);
+              finDelDia.setHours(23, 59, 59, 999);
 
-                if (fechaReporte > finDelDia) {
-                    mostrar = false;
-                }
+              if (fechaReporte.getTime() > finDelDia.getTime()) {
+              mostrar = false;
+              }
             }
+          
         }
 
 
