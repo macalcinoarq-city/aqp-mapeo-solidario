@@ -384,9 +384,22 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
     }
 
     // Crear marcador definitivo
-    L.marker([posicionFinal.lat, posicionFinal.lng])
-        .addTo(map)
-        .bindPopup(popupContenido);
+    // Crear marcador definitivo
+const marcadorDefinitivo = L.circleMarker([posicionFinal.lat, posicionFinal.lng], {
+  radius: 8,
+  color: obtenerColor(categoria),
+  fillColor: obtenerColor(categoria),
+  fillOpacity: 0.9
+})
+.addTo(map)
+.bindPopup(popupContenido);
+
+// 🔥 AGREGARLO AL ARRAY GLOBAL
+marcadores.push({
+  categoria: categoria,
+  marker: marcadorDefinitivo,
+  fecha: new Date() // importante para filtro por fecha
+});
 
     // Eliminar marcador temporal
     if (marcadorTemporal) {
@@ -468,7 +481,7 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   cargarReportes();
   function aplicarFiltros() {
 
-    const checkboxes = document.querySelectorAll('#filtros input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('#panel input[type="checkbox"]');
     const categoriasActivas = [];
    
     const solo24h = document.getElementById("filtro24h").checked;
