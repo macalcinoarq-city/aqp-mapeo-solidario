@@ -108,6 +108,31 @@
 #addMarkerBtn:active {
   transform: scale(0.95);
 }
+#togglePanel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: #ffb300; /* amarillo */
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: all 0.2s ease;
+}
+
+#togglePanel:active {
+  transform: scale(0.95);
+}
+
+#togglePanel:hover {
+  background: #e65100; /* naranja más intenso */
+}
     @media (max-width: 600px) {
 
   #panel {
@@ -214,20 +239,7 @@ style="position:fixed;top:20px;left:20px;z-index:1000;">
   
 <!-- 👇 PANEL DE FILTROS AQUÍ -->
 
-<button id="togglePanel" style="
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  border: none;
-  background: rgba(255,255,255,0.95);
-  border-radius: 20px;
-  cursor: pointer;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  z-index: 2000;
-">
+<button id="togglePanel">
   CAPAS
 </button>
   
