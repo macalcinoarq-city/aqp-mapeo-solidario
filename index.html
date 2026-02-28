@@ -772,7 +772,24 @@ addMarkerBtn.addEventListener("click", () => {
 
 });
 
-  
+  async function solicitarCambio(idReporte, nuevoEstado) {
+
+  const confirmar = confirm("¿Enviar solicitud de cambio de estado para validación?");
+
+  if (!confirmar) return;
+
+  const { error } = await supabaseClient
+    .from('reportes')
+    .update({ solicitud_estado: nuevoEstado })
+    .eq('id', idReporte);
+
+  if (error) {
+    alert("Error al enviar solicitud.");
+    console.error(error);
+  } else {
+    alert("Solicitud enviada para validación.");
+  }
+}
 </script>
 
 
