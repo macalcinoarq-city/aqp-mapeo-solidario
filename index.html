@@ -358,6 +358,32 @@ L.control.layers(
         return "#7F8C8D";
     }
   }
+  function obtenerColorEstado(estado) {
+  switch (estado) {
+    case "no_atendido":
+      return "#e53935"; // rojo
+    case "en_proceso":
+      return "#fbc02d"; // amarillo
+    case "atendido":
+      return "#43a047"; // verde
+    default:
+      return "#757575"; // gris fallback
+  }
+}
+  function obtenerEmojiCategoria(categoria) {
+  switch (categoria) {
+    case "limpieza":
+      return "🧹";
+    case "baches":
+      return "🕳️";
+    case "agua":
+      return "💧";
+    case "maquinaria":
+      return "🚜";
+    default:
+      return "⚠️";
+  }
+}
 
   
   var marcadores = [];
