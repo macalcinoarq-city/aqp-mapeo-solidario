@@ -609,8 +609,14 @@ const marcador = L.marker([r.lat, r.lng], {
     });
 
     let totalVisible = 0;
-    const conteoVisible = {};
 
+const conteoVisible = {};
+const conteoEstados = {
+  no_atendido: 0,
+  en_proceso: 0,
+  atendido: 0
+};
+    
     marcadores.forEach(obj => {
 
         let mostrar = categoriasActivas.includes(obj.categoria);
@@ -630,13 +636,7 @@ const marcador = L.marker([r.lat, r.lng], {
             mostrar = false;
         }
     }
-        if (solo24h && obj.fecha instanceof Date) {
-          const fechaReporte = obj.fecha;
-            const diferenciaHoras = (ahora - fechaReporte) / (1000 * 60 * 60);
-            if (diferenciaHoras > 24) {
-                mostrar = false;
-            }
-        }
+        
         // 🔎 Filtro por rango de fechas
         if (obj.fecha) {
             const fechaReporte = new Date(obj.fecha);
@@ -668,6 +668,10 @@ const marcador = L.marker([r.lat, r.lng], {
             }
 
             conteoVisible[obj.categoria]++;
+          // 🔵 conteo por estado
+        if (conteoEstados[obj.estado] !== undefined) {
+            conteoEstados[obj.estado]++;
+        }
 
         } else {
 
@@ -686,6 +690,12 @@ const marcador = L.marker([r.lat, r.lng], {
     }
 
     document.getElementById("conteoCategorias").innerHTML = htmlConteo;
+    // 📊 Mostrar conteo por estado
+document.getElementById("conteoEstados").innerHTML = `
+  🔴 No atendido: ${conteoEstados.no_atendido}<br>
+  🟡 En proceso: ${conteoEstados.en_proceso}<br>
+  🟢 Atendido: ${conteoEstados.atendido}
+`;
 }
 
 
