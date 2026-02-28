@@ -510,9 +510,18 @@ marcadores.push({
         document.getElementById("conteoCategorias").innerHTML = htmlConteo;
 
         data.forEach(r => {
-
-        let popupContenido = `<b>${r.categoria}</b><br>${r.descripcion}`;
-
+const estadoTexto = r.estado === "no_atendido"
+  ? "🔴 No atendido"
+  : r.estado === "en_proceso"
+  ? "🟡 En proceso"
+  : "🟢 Atendido";
+        
+          let popupContenido = `
+  <b>${r.categoria}</b><br>
+  Estado: ${estadoTexto}<br>
+  ${r.descripcion || ""}
+`;
+          
         if (r.imagen_url) {
           popupContenido += `<br><img src="${r.imagen_url}" width="200">`;
         }
