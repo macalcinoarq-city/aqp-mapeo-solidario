@@ -515,17 +515,37 @@ marcadores.push({
           popupContenido += `<br><img src="${r.imagen_url}" width="200">`;
         }
 
-        const marcador = L.circleMarker([r.lat, r.lng], {
-          radius: 8,
-          color: obtenerColor(r.categoria),
-          fillColor: obtenerColor(r.categoria),
-          fillOpacity: 0.9
-        })
-        .addTo(map)
-        .bindPopup(popupContenido);
+        const colorEstado = obtenerColorEstado(r.estado);
+        const emoji = obtenerEmojiCategoria(r.categoria);
 
+const marcador = L.marker([r.lat, r.lng], {
+  icon: L.divIcon({
+    className: "",
+    html: `
+      <div style="
+        background:${colorEstado};
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:14px;
+        box-shadow:0 2px 6px rgba(0,0,0,0.4);
+      ">
+        ${emoji}
+      </div>
+    `,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
+  })
+})
+.addTo(map)
+.bindPopup(popupContenido);
+          
         marcadores.push({
           categoria: r.categoria,
+          estado: r.estado,
           marker: marcador,
           fecha: r.created_at ? new Date(r.created_at) : null
         });
