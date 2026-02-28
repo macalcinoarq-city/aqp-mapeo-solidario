@@ -615,6 +615,21 @@ const marcador = L.marker([r.lat, r.lng], {
 
         let mostrar = categoriasActivas.includes(obj.categoria);
 
+      const estadosActivos = Array.from(
+        document.querySelectorAll('.filtro-estado:checked')
+    ).map(e => e.value);
+
+    if (!estadosActivos.includes(obj.estado)) {
+        mostrar = false;
+    }
+
+    if (solo24h && obj.fecha instanceof Date) {
+        const fechaReporte = obj.fecha;
+        const diferenciaHoras = (ahora - fechaReporte) / (1000 * 60 * 60);
+        if (diferenciaHoras > 24) {
+            mostrar = false;
+        }
+    }
         if (solo24h && obj.fecha instanceof Date) {
           const fechaReporte = obj.fecha;
             const diferenciaHoras = (ahora - fechaReporte) / (1000 * 60 * 60);
