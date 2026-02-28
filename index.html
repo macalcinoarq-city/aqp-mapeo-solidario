@@ -372,16 +372,18 @@ L.control.layers(
 }
   function obtenerEmojiCategoria(categoria) {
   switch (categoria) {
-    case "limpieza":
+    case "Cuadrillas de limpieza":
       return "🧹";
-    case "baches":
+    case "Baches profundos":
       return "🕳️";
-    case "agua":
+    case "Donación de agua y víveres":
       return "💧";
-    case "maquinaria":
+    case "Maquinaria para escombros":
       return "🚜";
-    default:
+    case "Otros daños":
       return "⚠️";
+    default:
+      return "📍";
   }
 }
 
