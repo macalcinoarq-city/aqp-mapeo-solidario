@@ -110,6 +110,27 @@
 #addMarkerBtn:active {
   transform: scale(0.95);
 }
+#toast {
+    position: fixed;
+    bottom: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: #1f2937;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000000;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+
+  #toast.show {
+    opacity: 1;
+     
+}
 #togglePanel {
   position: fixed;
   top: 16px;
@@ -177,28 +198,7 @@
     margin: 4px 0;
   }
   
-  #toast {
-    position: fixed;
-    bottom: 30px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: #1f2937;
-    color: white;
-    padding: 14px 22px;
-    border-radius: 10px;
-    font-size: 14px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 1000000;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  }
-
-  #toast.show {
-    opacity: 1;
-     
-}
-
+  
   </style>
 </head>
 
