@@ -425,7 +425,12 @@ L.control.layers(
 
  
   async function guardarReporte() {
-  if (!marcadorTemporal) return;
+  console.log("Marcador al iniciar:", marcadorTemporal);
+
+  if (!marcadorTemporal) {
+    console.log("No hay marcador temporal.");
+    return;
+  }
 
   const categoria = document.getElementById('categoria').value;
   const descripcion = document.getElementById('descripcion').value;
