@@ -17,7 +17,9 @@
     color: #1f2937;   /* gris oscuro más elegante que negro puro */
     }
 
-    #map { height: 100vh; 
+    #map { 
+      position: relative;
+      z-index: 0;
     }
 
     h3 {
@@ -176,7 +178,7 @@
   }
   
   #toast {
-    position: fixed !important;
+    position: fixed;
     bottom: 30px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
@@ -188,7 +190,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 999999 !important;
+    z-index: 999999;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   }
 
