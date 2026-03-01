@@ -461,6 +461,8 @@ L.control.layers(
   }
 
     const posicionFinal = marcadorTemporal.getLatLng();
+    const lat = posicionFinal.lat;
+    const lng = posicionFinal.lng;
 
     const { error } = await supabaseClient
       .from('reportes')
