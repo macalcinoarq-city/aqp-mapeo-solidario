@@ -63,7 +63,17 @@
 const supabaseUrl = "https://esgprjbtkykdkzhpkjie.supabase.co";
 const supabaseKey = "sb_publishable_Pjl5CaB7eqtkAaBIaVVdXg_qAIXMB4S";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+// 🔐 Verificar sesión
+async function verificarSesion() {
+  const { data } = await supabaseClient.auth.getSession();
 
+  if (!data.session) {
+    window.location.href = "/login.html";
+  }
+}
+
+verificarSesion();
+  
 async function cargarSolicitudes() {
 
   const { data, error } = await supabaseClient
