@@ -65,9 +65,21 @@ const supabaseKey = "sb_publishable_Pjl5CaB7eqtkAaBIaVVdXg_qAIXMB4S";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 // 🔐 Verificar sesión
 async function verificarSesion() {
+
   const { data } = await supabaseClient.auth.getSession();
 
   if (!data.session) {
+    window.location.href = "/login.html";
+    return;
+  }
+
+  const usuario = data.session.user.email;
+
+  const correoAdmin = "macalcino.arq@gmail.com";
+
+  if (usuario !== correoAdmin) {
+    alert("No tienes permisos para acceder a este panel.");
+    await supabaseClient.auth.signOut();
     window.location.href = "/login.html";
   }
 }
