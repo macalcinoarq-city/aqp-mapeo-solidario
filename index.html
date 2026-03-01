@@ -429,6 +429,8 @@ L.control.layers(
 
   const categoria = document.getElementById('categoria').value;
   const descripcion = document.getElementById('descripcion').value;
+  const nombreContacto = document.getElementById("nombreContacto").value || null;
+  const telefonoContacto = document.getElementById("telefonoContacto").value || null;
   const archivo = document.getElementById('imagen').files[0];
 
   let imagenUrl = null;
@@ -457,14 +459,18 @@ L.control.layers(
 
     const { error } = await supabaseClient
       .from('reportes')
-      .insert([{
+      .insert([
+    {
         categoria: categoria,
         descripcion: descripcion,
-        lat: posicionFinal.lat,
-        lng: posicionFinal.lng,
-        imagen_url: imagenUrl
-      }]);
-
+        lat: lat,
+        lng: lng,
+        imagen_url: imagenUrl,
+        nombre_contacto: nombreContacto,
+        telefono_contacto: telefonoContacto
+      }
+    ]);
+    
 
   if (error) {
     alert("Error al guardar: " + error.message);
