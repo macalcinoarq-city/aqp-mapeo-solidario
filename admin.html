@@ -126,11 +126,16 @@ async function cargarSolicitudes() {
 
 async function aprobar(id, nuevoEstado) {
 
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+  const correoAdmin = sessionData.session.user.email;
+
   const { error } = await supabaseClient
     .from('reportes')
     .update({
       estado: nuevoEstado,
-      solicitud_cambio: null
+      solicitud_cambio: null,
+      validado_por: correoAdmin,
+      fecha_validacion: new Date().toISOString()
     })
     .eq('id', id);
 
