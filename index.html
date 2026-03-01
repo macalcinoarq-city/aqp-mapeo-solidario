@@ -544,18 +544,24 @@ if (r.solicitud_cambio) {
     🔄 Solicitud pendiente: ${r.solicitud_cambio.replace("_"," ")}
   </span><br>`;
 }
-        
+        let botonesSolicitud = "";
+
+if (!r.solicitud_cambio) {
+  botonesSolicitud = `
+    <strong>Solicitar cambio de estado:</strong><br>
+    <button onclick="solicitarCambio('${r.id}','no_atendido')">🔴</button>
+    <button onclick="solicitarCambio('${r.id}','en_proceso')">🟡</button>
+    <button onclick="solicitarCambio('${r.id}','atendido')">🟢</button>
+  `;
+}
           let popupContenido = `
   <b>${r.categoria}</b><br>
   Estado: ${estadoTexto}<br>
   ${solicitudTexto}
   ${r.descripcion || ""}<br><br>
-
-  <strong>Solicitar cambio de estado:</strong><br>
-  <button onclick="solicitarCambio('${r.id}','no_atendido')">🔴</button>
-  <button onclick="solicitarCambio('${r.id}','en_proceso')">🟡</button>
-  <button onclick="solicitarCambio('${r.id}','atendido')">🟢</button>
+  ${botonesSolicitud}
 `;
+
           
         if (r.imagen_url) {
           popupContenido += `<br><img src="${r.imagen_url}" width="200">`;
