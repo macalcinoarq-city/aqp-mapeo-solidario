@@ -796,8 +796,17 @@ addMarkerBtn.addEventListener("click", () => {
     alert("Error al enviar solicitud.");
     console.error(error);
   } else {
-    alert("Solicitud enviada para validación.");
-  }
+  alert("Solicitud enviada para validación.");
+
+  // 🔄 Recargar solo marcadores registrados
+  marcadores.forEach(obj => {
+    map.removeLayer(obj.marker);
+  });
+
+  marcadores = [];
+  cargarReportes();
+ }
+  
 }
 </script>
 
