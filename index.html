@@ -536,10 +536,19 @@ const estadoTexto = r.estado === "no_atendido"
   : r.estado === "en_proceso"
   ? "🟡 En proceso"
   : "🟢 Atendido";
+          
+          let solicitudTexto = "";
+
+if (r.solicitud_estado) {
+  solicitudTexto = `<span style="color:blue;">
+    🔄 Solicitud pendiente: ${r.solicitud_estado.replace("_"," ")}
+  </span><br>`;
+}
         
           let popupContenido = `
   <b>${r.categoria}</b><br>
   Estado: ${estadoTexto}<br>
+  ${solicitudTexto}
   ${r.descripcion || ""}<br><br>
 
   <strong>Solicitar cambio de estado:</strong><br>
