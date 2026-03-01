@@ -539,9 +539,9 @@ const estadoTexto = r.estado === "no_atendido"
           
           let solicitudTexto = "";
 
-if (r.solicitud_estado) {
+if (r.solicitud_cambio) {
   solicitudTexto = `<span style="color:blue;">
-    🔄 Solicitud pendiente: ${r.solicitud_estado.replace("_"," ")}
+    🔄 Solicitud pendiente: ${r.solicitud_cambio.replace("_"," ")}
   </span><br>`;
 }
         
@@ -789,7 +789,7 @@ addMarkerBtn.addEventListener("click", () => {
 
   const { error } = await supabaseClient
     .from('reportes')
-    .update({ solicitud_estado: nuevoEstado })
+    .update({ solicitud_cambio: nuevoEstado })
     .eq('id', idReporte);
 
   if (error) {
